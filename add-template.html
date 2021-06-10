@@ -60,7 +60,7 @@
             listTemplate = listTemplate ? JSON.parse(listTemplate) : []
             listTemplate.push(savedData)
             localStorage.setItem('noveltyTyniComponent', JSON.stringify(listTemplate))
-            window.location.href = '/tinymce.html';
+            window.location.href = 'tinymce.html';
         }
         document.querySelectorAll('.example-list a').forEach((elm, index) => {
             elm.addEventListener('click', () => {
