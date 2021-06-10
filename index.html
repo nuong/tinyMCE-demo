@@ -13,6 +13,7 @@
         <div class="my-3">
             <button class="button" onclick="openEditor()">Back to editor</button>
             <button class="button is-primary" onclick="preview()">Preview</button>
+            <a class="button is-accent" href="/add-template.html">Add template</a>
         </div>
         <div id="previewArea" style="display: none;"></div>
         <div id="editorWrapper">
@@ -20,11 +21,38 @@
         </div>
       </div>
       <script>
+         let listTemplate = localStorage.getItem('noveltyTyniComponent')
+          listTemplate = listTemplate ? JSON.parse(listTemplate) : []
+          console.log(listTemplate)
           const editor = tinymce.init({
             selector: '#mytextarea',
             plugins: 'table image media link code',
             toolbar_mode: 'floating',
-            content_css: 'img {max-width: 100%; height: auto}'
+            toolbar: 'novelty',
+            // content_css: 'img {max-width: 100%; height: auto}',
+            setup: function(editor) {
+                editor.ui.registry.addMenuButton('novelty', {
+                    text: 'Novelty Template',
+                    fetch: function(callback) {
+                        var items = [];
+                        for (let itemTemp of listTemplate) {
+                          var menuItem = {
+                              type: 'menuitem',
+                              text: itemTemp.name,
+                              value: itemTemp.content,
+                              onSetup: function(buttonApi) {
+                                var $this = this;
+                                this.onAction = function() {
+                                    editor.insertContent($this.data.value);
+                                };
+                              },
+                          };
+                        items.push(menuItem);
+                        }
+                        callback(items);
+                    }
+                });
+            }
         });
         function preview() {
             const content = tinymce.get('mytextarea').getContent()
