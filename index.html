@@ -55,11 +55,9 @@
             }
         });
         function preview() {
-            const content = tinymce.get('mytextarea').getContent()
-            console.log('output html: ', content)
-            document.getElementById('previewArea').innerHTML = content;
-            document.getElementById('previewArea').style.display = 'block';
-            document.getElementById('editorWrapper').style.display = 'none'
+          const content = tinymce.get('mytextarea').getContent()
+          localStorage.setItem('previewContent', JSON.stringify(content))
+          window.location.href = 'preview.html'
         }
         function openEditor() {
             document.getElementById('previewArea').style.display = 'none';
